@@ -2,7 +2,7 @@
 # HumbleBundleTwitterBot - Searches for humblebundle key urls and attempts to redeem them
 
 import twitter # https://github.com/bear/python-twitter
-import
+import re
 
 # Put your keys here
 api = twitter.Api(consumer_key="KEY",
