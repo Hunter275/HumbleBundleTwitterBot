@@ -1,2 +1,0 @@
-# Hunter Thornsberry http://www.adventuresintechland.com
-# Logs will be written to this log file

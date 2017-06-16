@@ -1,0 +1,4 @@
+# Hunter Thornsberry http://www.adventuresintechland.com
+# Logs will be written to this log file
+2017-06-16 15:01:07,292 Trying 'https://www.humblebundle.com/gift?key=mkTxrZV47DassnMy'
+2017-06-16 15:02:07,988 Already tried this URL: https://www.humblebundle.com/gift?key=mkTxrZV47DassnMy
