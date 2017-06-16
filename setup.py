@@ -18,5 +18,7 @@ setup(
     author_email='hunter@hunterthornsberry.com',
     url='https://github.com/Hunter275/HumbleBundleTwitterBot',
     license=license,
-    packages=find_packages(exclude=('tests', 'docs'))
+    packages=find_packages(exclude=('tests', 'docs')),
+    install_requires=["twitter"],
+    dependency_links=["git+ssh://git@github.com/bear/python-twitter.git"]
 )
