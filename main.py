@@ -1,3 +1,6 @@
+# Hunter Thornsberry http://www.adventuresintechland.com
+# HumbleBundleTwitterBot - Searches for humblebundle key urls and attempts to redeem them
+
 import twitter
 import re
 import mechanize
@@ -7,15 +10,18 @@ import ssl
 import time
 import urllib
 import requests.packages.urllib3
+import logger
 
 requests.packages.urllib3.disable_warnings()
 
 email = "your@email.com"
+
 previousURL = ""
 
 def main():
+    global previousURL
 
-    # You'll need to get your own keys for the API (https://apps.twitter.com/)
+    # You'll need your own API keys (http://apps.twitter.com)
     api = twitter.Api(consumer_key="KEY",
                       consumer_secret="KEY",
                       access_token_key="KEY",
@@ -28,7 +34,11 @@ def main():
     results = str(results)
 
     # Grab any URL from the status
-    url = re.search("(?P<url>https?://[^\s]+)", results).group("url")[:-3]
+    url = re.search("(?P<url>https?://[^\s]+)", results).group("url")
+
+    # Concatenate the URL if the URL is the last bit of text, which has trailing characters from the API
+    if url[len(url) - 3:] == "')]":
+        url = url[:-3]
 
     # Twitter's API shortens all URLs as t.co domains, this grabs the full domain behind it
     parsed = urlparse.urlparse(url)
@@ -40,31 +50,30 @@ def main():
     else:
         url = url
 
-    # Do not attempt to fill in the form if we've already tried this URL
     if url == previousURL:
-        print "Already tried this URL"
-    # If we haven't tried this URL, set it to the previousURL, then try it
+        print "Already tried this URL:", url
+        logger.log("Already tried this URL: " + url)
     else:
+        # Try to claim the gift
+        print "Trying '" + url + "'"
+        logger.log("Trying '" + url + "'")
         previousURL = url
-        mechanize(url)
 
-def mechanize(url):
-    # Try to claim the gift
-    print "Trying '" + url + "'"
+        # Use mechanize to populate the two email fields and submit the form
+        # Note: Working on bug fixes in this location
+        try:
+            br = mechanize.Browser()
+            br.set_handle_robots(False)
+            br.open(url)
+            br.select_form(id="gift-redeem")
+            br["email"] = email
+            br.form.find_control(id="email-confirm").__setattr__("value", email)
+            br.submit()
+        except Exception as exp:
+            if str(exp) != "<urlopen error [Errno 8] _ssl.c:507: EOF occurred in violation of protocol>": # Known request issue, works regardless
+                logger.log(str(exp))
+            pass
 
-    # Use mechanize to populate the two email fields and submit the form
-    try:
-        br = mechanize.Browser()
-        br.set_handle_robots(False)
-        br.open(url)
-        br.select_form(id="gift-redeem")
-        br["email"] = email
-        br.form.find_control(id="email-confirm").__setattr__("value", email)
-        br.submit()
-    except Exception as exp:
-        pass
-
-# Do this every 60 seconds (rate limit on Twitter API is 15 req/15 min, or 1 per min)
 while True:
     main()
     time.sleep(60)
