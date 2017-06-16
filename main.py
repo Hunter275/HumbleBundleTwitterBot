@@ -20,7 +20,7 @@ user_access_token_key = "KEY"
 user_access_token_secret = "KEY"
 
 # Setup logging
-logging.basicConfig(filename='log.txt',level=logging.INFO)
+logging.basicConfig(filename='log.txt', format="%(asctime)s %(message)s", level=logging.INFO)
 
 # Disable URL warning (known issues with HTTPS)
 requests.packages.urllib3.disable_warnings()
@@ -66,7 +66,7 @@ def main():
     else:
         # Try to claim the gift
         print "Trying '" + url + "'"
-        logger.log("Trying '" + url + "'")
+        logging.info("Trying '" + url + "'")
         previousURL = url
 
         # Use mechanize to populate the two email fields and submit the form
@@ -81,7 +81,7 @@ def main():
             br.submit()
         except Exception as exp:
             if str(exp) != "<urlopen error [Errno 8] _ssl.c:507: EOF occurred in violation of protocol>": # Known request issue, works regardless
-                logging.info(str(exp))
+                logging.debug(str(exp))
             pass
 
 while True:
