@@ -10,22 +10,32 @@ import ssl
 import time
 import urllib
 import requests.packages.urllib3
-import logger
+import logging
 
+# User Settings
+email = "your@email.com"
+user_consumer_key = "KEY"
+user_consumer_secret = "KEY"
+user_access_token_key = "KEY"
+user_access_token_secret = "KEY"
+
+# Setup logging
+logging.basicConfig(filename='log.txt',level=logging.INFO)
+
+# Disable URL warning (known issues with HTTPS)
 requests.packages.urllib3.disable_warnings()
 
-email = "your@email.com"
-
+# Make sure we don't try the same URL twice
 previousURL = ""
 
 def main():
     global previousURL
 
     # You'll need your own API keys (http://apps.twitter.com)
-    api = twitter.Api(consumer_key="KEY",
-                      consumer_secret="KEY",
-                      access_token_key="KEY",
-                      access_token_secret="KEY")
+    api = twitter.Api(consumer_key=user_consumer_key,
+                      consumer_secret=user_consumer_secret,
+                      access_token_key=user_access_token_key,
+                      access_token_secret=user_access_token_secret)
 
     # Get the Twitter API results, count=1
     results = api.GetSearch("humblebundle.com?gift", result_type="recent", count=1)
@@ -52,7 +62,7 @@ def main():
 
     if url == previousURL:
         print "Already tried this URL:", url
-        logger.log("Already tried this URL: " + url)
+        logging.info("Already tried this URL: " + url)
     else:
         # Try to claim the gift
         print "Trying '" + url + "'"
@@ -71,7 +81,7 @@ def main():
             br.submit()
         except Exception as exp:
             if str(exp) != "<urlopen error [Errno 8] _ssl.c:507: EOF occurred in violation of protocol>": # Known request issue, works regardless
-                logger.log(str(exp))
+                logging.info(str(exp))
             pass
 
 while True:
