@@ -7,4 +7,3 @@ Notice: I don't use the Twitter Streaming API because Twitter shortens all URLs 
 ---
 To-Do
 1. Make the logger not log so many "Already tried this URL..." messages
-2. Add a setup.py
