@@ -18,7 +18,6 @@ setup(
     author_email='hunter@hunterthornsberry.com',
     url='https://github.com/Hunter275/HumbleBundleTwitterBot',
     license=license,
-    install_requires=['mechanize', 'ssl', 'urllib'],
-    install_requires=["twitter"],
+    install_requires=['mechanize', 'ssl', 'urllib', "twitter"],
     dependency_links=["git+ssh://git@github.com/bear/python-twitter.git"]
 )
