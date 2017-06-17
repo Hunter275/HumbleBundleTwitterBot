@@ -19,6 +19,10 @@ user_consumer_secret = "KEY"
 user_access_token_key = "KEY"
 user_access_token_secret = "KEY"
 
+if email == "your@email.com" or user_consumer_key == "KEY" or user_consumer_secret == "KEY" or user_access_token_key == "KEY" or user_access_token_secret == "KEY":
+    print "Please edit main.py and input your user settings"
+    exit()
+
 # Setup logging
 logging.basicConfig(filename='log.txt', format="%(asctime)s %(message)s", level=logging.INFO)
 
@@ -47,7 +51,7 @@ def main():
     url = re.search("(?P<url>https?://[^\s]+)", results).group("url")
 
     # Concatenate the URL if the URL is the last bit of text, which has trailing characters from the API
-    if url[len(url) - 3:] == '")]' || url[len(url) - 3:] == "')]" :
+    if url[len(url) - 3:] == '")]' or url[len(url) - 3:] == "')]":
         url = url[:-3]
 
     # Twitter's API shortens all URLs as t.co domains, this grabs the full domain behind it
