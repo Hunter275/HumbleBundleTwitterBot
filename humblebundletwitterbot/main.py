@@ -50,7 +50,7 @@ def main():
     # Grab any URL from the status
     url = re.search("(?P<url>https?://[^\s]+)", results).group("url")
 
-    # Concatenate the URL if the URL is the last bit of text, which has trailing characters from the API
+    # Truncate the URL if the URL is the last bit of text, which has trailing characters from the API
     if url[len(url) - 3:] == '")]' or url[len(url) - 3:] == "')]":
         url = url[:-3]
 
