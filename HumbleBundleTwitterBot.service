@@ -1,0 +1,14 @@
+[Unit]
+Description=Twitter Search for HumbleBundle links
+
+[Service]
+Type=simple
+WorkingDirectory=<path to humblebundletwitterbot>
+ExecStart=<virtual env path>/bin/python <path to main.py> --serve-in-foreground
+Restart=always
+RestartSec=2
+
+
+[Install]
+WantedBy=multi-user.target
+
